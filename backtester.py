@@ -5,6 +5,7 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolb
 
 import tkinter as tk
 from tkinter import messagebox
+from tkinter import Menu
 
 import sys
 import numpy as np
@@ -15,10 +16,28 @@ class Applicaton:
                 self.root = root
                 self.root.title("My Tkinter App")
                 self.root.geometry("1200x700")
+                self.create_menu(self.root)
                 self.loadData()
                 self.fig = plt.figure(figsize=(8,6))
                 self.plotData()
                 self.root.protocol("WM_DELETE_WINDOW", self.on_closing)
+
+        def create_menu(self,root):
+                self.menubar = Menu(root)
+
+                # Menu
+                self.about_menu = Menu(self.menubar, tearoff=0)
+                self.about_menu.add_command(label="About", command=self.show_about)
+                self.menubar.add_cascade(label="Help", menu=self.about_menu)
+
+                # Attach the menu bar to the root window
+                self.root.config(menu=self.menubar)
+
+        def show_about(self):
+                # Define the action for the "About" menu item
+                about_text = """This is a Python Stock and Crypto Backtester. Developed by Gilbert to analyze the effectiveness of certain testing strategies. Nothing Provided or shown in this Application is trading and/or investing advice. The Creator of this Application is not responsiblefor any losses. Trade at your own Risk!"""
+                tk.messagebox.showinfo("About", about_text)
+
         
         def loadData(self):
                 # Fake Data
@@ -51,7 +70,7 @@ class Applicaton:
                 self.axs[2].xaxis.set_tick_params(rotation=25)
                 self.axs[2].xaxis.set_major_locator(MultipleLocator(25))
 
-                self.axs[-1].set_xlabel("Dates")
+                self.axs[-1].set_xlabel("Dates",labelpad=10)
 
                 for ax in self.axs:
                         if ax != self.axs[-1]:
@@ -59,7 +78,8 @@ class Applicaton:
 
 
                 #Top margin for graphics -gives space not so cramp
-                plt.subplots_adjust(hspace=0.2)
+                #plt.subplots_adjust(hspace=0.2)
+                plt.subplots_adjust(hspace=0.2,bottom=0.2)
 
                 # Create a label
                 # self.label = tk.Label(self.root, text="Hello, Tkinter!")
@@ -68,16 +88,16 @@ class Applicaton:
                 #Creating tk canvas and inserting plots within ~ later used for collecting user inputs
                 self.canvas = FigureCanvasTkAgg(self.fig,master=self.root)
                 self.canvas.draw()
-                self.canvas.get_tk_widget().pack(side=tk.LEFT, fill=tk.BOTH, expand=1)
+                self.canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=1)
 
                 # Add Matplotlib navigation toolbar
                 self.toolbar = NavigationToolbar2Tk(self.canvas, self.root)
                 self.toolbar.update()
-                self.toolbar.pack(side=tk.BOTTOM, fill=tk.X)  # Pack horizontally
+                self.toolbar.pack(side=tk.LEFT, padx=10, pady=0)  # Pack horizontally
 
                 #Create a button
                 self.button = tk.Button(root, text="Click me!", command=self.change_label)
-                self.button.pack()
+                self.button.pack(side=tk.RIGHT, padx=10, pady=0)
 
         def change_label(self):
                 self.label.config(text="Button clicked!")
