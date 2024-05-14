@@ -11,6 +11,8 @@ import sys
 import numpy as np
 import pandas as pd
 
+from indicators import SMA
+
 class Applicaton:
         def __init__(self, root):
                 self.root = root
@@ -49,6 +51,8 @@ class Applicaton:
                 self.y1 = np.sin(self.x)
                 self.y2 = np.cos(self.x)
                 self.y3 = np.tan(self.x)
+
+                self.sma = SMA(5,self.closes)
                 
         def plotData(self):
                 #adds height to chart types, aka top chart is tallest
@@ -60,14 +64,15 @@ class Applicaton:
 
                 #plots
                 self.axs[0].plot(self.dates,self.closes)
-                self.axs[2].xaxis.set_tick_params(bottom = False)
+                self.axs[0].plot(self.dates,self.sma)
+                #self.axs[2].xaxis.set_tick_params(bottom = False)
 
                 self.axs[1].plot(self.dates,self.volume)
                 self.axs[1].set_title("Volume")
 
                 self.axs[2].plot(self.dates,self.volume)
                 self.axs[2].set_title("MACD")
-                self.axs[2].xaxis.set_tick_params(rotation=25)
+                self.axs[2].xaxis.set_tick_params(rotation=12)
                 self.axs[2].xaxis.set_major_locator(MultipleLocator(25))
 
                 self.axs[-1].set_xlabel("Dates",labelpad=10)
