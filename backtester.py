@@ -65,6 +65,13 @@ class Applicaton:
                 #plots
                 self.axs[0].plot(self.dates,self.closes)
                 self.axs[0].plot(self.dates,self.sma)
+                i = 0
+                for i in range(0,len(self.closes)):
+                        if self.sma[i]>self.closes[i] and not self.sma[i-1] > self.closes[i-1]:
+                                #print(self.dates[i])
+                                self.axs[0].plot(self.dates[i],(self.closes[i]), marker="^", color="green")
+                        elif self.sma[i]<self.closes[i] and not self.sma[i-1] < self.closes[i-1]:
+                                self.axs[0].plot(self.dates[i],(self.closes[i]), marker="v", color="red")
                 #self.axs[2].xaxis.set_tick_params(bottom = False)
 
                 self.axs[1].plot(self.dates,self.volume)
