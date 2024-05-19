@@ -53,6 +53,7 @@ class Applicaton:
                 self.y3 = np.tan(self.x)
 
                 self.sma = SMA(5,self.closes)
+                self.sma2 = SMA(7,self.closes)
                 
         def plotData(self):
                 #adds height to chart types, aka top chart is tallest
@@ -65,6 +66,7 @@ class Applicaton:
                 #plots
                 self.axs[0].plot(self.dates,self.closes)
                 self.axs[0].plot(self.dates,self.sma)
+                self.axs[0].plot(self.dates,self.sma2)
                 i = 0
                 for i in range(0,len(self.closes)):
                         if self.sma[i]>self.closes[i] and not self.sma[i-1] > self.closes[i-1]:
